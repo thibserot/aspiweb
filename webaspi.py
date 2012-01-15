@@ -20,7 +20,11 @@ def aspiWeb():
     while True:
         url = urls.get(True,TIMEOUT)
         print "Downloading",url
-        htmlSource = readURL(url,ENCODING)
+        try:
+            htmlSource = readURL(url,ENCODING)
+        except urllib2.HTTPError:
+            print url,"not found"
+            continue
         path = SAVE_URL_DIR + url[url.find("//")+2:]
         if path[-1] == "/":
             path = path + "index.html"
